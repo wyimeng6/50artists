@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Prototype techniques</title>
+	<link href="https://fonts.googleapis.com/css2?family=Sen:wght@400;700;800&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<script src="https://unpkg.com/intersection-observer"></script>
+	<script src="https://unpkg.com/scrollama"></script>
+</head>
+<style type="text/css">
+	body, html {
+		top:0;
+		left:0;
+		margin:0;
+		font-family:'Arial Black', sans-serif;
+		background-color: #F9F5F4;
+	}
+	nav	{
+		background-color:#F9F5F4;
+		position:fixed;
+		width:100%;
+		display:flex;
+		justify-content: center;
+		align-items:center;
+		border-bottom:0.05em solid black;
+		z-index:100;
+	}
+	.title {
+		height:50vh;
+		color:white;
+		background-color:black;
+/*		background-image:url('https://i.pinimg.com/originals/7f/43/1c/7f431c9e6991b1a83d79e359dc09c99d.gif');*/
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-position: left top;
+		background-size: auto 100%;
+	}
+	.title h1 {
+		font-size:5em;
+	}
+	.title h2 {
+		font-size:1em;
+		font-weight:400;
+	}
+	.header {
+		text-align:center;
+		display:flex;
+		justify-content:center;
+		align-items:center;
+		border:0.5em solid black;
+		padding:5% 0%;
+		animation: fadeIn 0.5s ease-in-out;
+	}
+	.header h1{
+		font-family:'Arial black', sans-serif;
+		font-weight:800;
+		margin:0;
+	}
+	.header h2 {
+		margin:0;
+	}
+	.sticky {
+		float:right;
+		top:25%;
+		position:sticky;
+		width:50%;
+		display:inline-flex;
+					background-color:white;
+	}
+	.leftside{
+		background-color:black;
+		color:white;
+		width: 30%;
+    	padding: 5% 10% 5% 5%;
+	}
+	.progressive{
+		width:100%;
+		display:block;
+		margin-bottom:100%!important;
+	}
+	.end {
+		margin-bottom:5%!important;
+	}
+	#counter {
+		width:100%;
+		font-size:10em;
+		text-align:center;
+		margin:0;
+		padding:0%;
+		line-height:1em;
+		font-weight: 800;
+    	letter-spacing: -0.05em;
+	}
+	#counter h2{
+		text-align:center;
+	}
+	.text {
+		font-family:Arial;
+		margin:5%;
+		line-height:2em;
+		opacity:0;
+		margin-top:10%;
+		margin-left:10%;
+		margin-right:20%;
+		transition:0.5s ease-in-out;
+	}
+	.text h1 {
+		font-size:4em;
+		letter-spacing:-0.05em;
+		line-height:1em;
+		font-weight:900;
+		width:60%;
+	}
+	.text h2 {
+		font-weight:400;
+		font-size:1em;
+		font-style:italic;
+	}
+	.sticky h1 {
+		width:100%;
+		font-size:3em;
+	}
+	.sticky h2 {
+		font-size:0.8em;
+		text-transform:uppercase;
+		letter-spacing:0.1em;
+	}
+	.center_aligner {
+		overflow:none;
+		width:100%;
+		display:flex;
+		align-items:center;
+		justify-content:center;
+		margin:2% 0%;
+	}
+	iframe {
+		border:0.5em solid black;
+		width:900px;
+		height:500px;
+	}
+	.tableauPlaceholder{
+		width:50%;
+		z-index:0;
+	}
+	img{
+		text-align:center;
+		margin:0%;
+		display:inline-block;
+		border:0 em solid black;
+	}
+	.caption {
+		font-size:0.8em;
+		color:#666666;
+	}
+	.small {
+		width:100%;
+	}
+	.large {
+		width:80%;
+		display:block;
+	}
+	@keyframes fadeIn {
+		0%{
+			opacity:0;
+		}
+		100%{
+			opacity:1;
+		}
+	}
+	@media screen and (max-width:767px){
+		.sticky {
+	/*		bottom:0;*/
+			width:50%;
+			float:none;
+			margin:auto;
+			display:flex;
+			line-height:2em;
+		}
+		.sticky h1 {
+			font-size:2em;
+			line-height:2em;
+		}
+		.sticky h2 {
+			font-size:0.5em;
+		}
+		#counter {
+			font-size:5em;
+		}
+		.leftside {
+			width: 85%;
+    		padding: 5% 10% 5% 5%;
+		}
+		.small {
+			width:80%;
+		}
+		.title {
+			height:80vh;
+		}
+		.text h1 {
+			font-size:2.5em;
+			width:80%;
+		}
+		.text {
+			margin:20% 20%;
+		}
+		iframe {
+			height:300px;
+		}
+
+	}
+</style>
+<body>
+
+<!-- nav -->
+<nav>
+	<h3>50 Most Influential Artists</h3>
+</nav>
+
+<!-- text -->
+<div class='header title step'>
+	<div class='aligner'>
+		<h1>50 Most Influential Artists</h1>
+		<h2>Exploring Artistic Impact through data</h2>	
+	</div>
+</div>
+
+
+<div class='text'>
+	<h2>Designed by Weiyi Meng</h2>	
+	This interactive visual story unveils the 50 most influential artists who have shaped the landscape of modern and contemporary art. Here, each artist's unique influence is not just explored through their most famous works but through the lens of data analytics, providing a fresh perspective on art history.
+</div>
+
+<div class='text'; margin-left='20%'>
+	<h1>Discovering the Genres</h1>
+This story is not just about the artists but also about the genres they represent. Each genre, with its distinct characteristics and historical significance, tells a part of the broader narrative of artistic evolution. As we delve into the genres, we invite you to interact with the data, explore the connections, and see how artists influenced not only their contemporaries but also generations to come. From the delicate strokes of Impressionism to the bold shapes of Cubism, and the abstract expressions of Surrealism, the diversity of genres speaks to the myriad ways these artists have expressed their vision and changed the course of art history.
+</div>
+
+
+<!-- image 1 -->
+<div class='center_aligner'>
+	<!-- change line 120 if you want to change the size of the image -->
+	<img class='small' src="images/1.jpg"> 	
+</div>
+<!-- caption for image 1 -->
+<div class='center_aligner'>
+	<div class='caption'>Artists' paintings from different genres </div>	
+</div>
+
+
+
+
+<!-- tableau public -->
+<div class='center_aligner'>
+	<!-- insert tableau public embed link below this line -->
+	<div class='tableauPlaceholder' id='viz1715515004281' style='position: relative'><noscript><a href='#'><img alt='genre circles ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;5O&#47;5Omostinfluentialartistsintheworld&#47;genrecircles&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='5Omostinfluentialartistsintheworld&#47;genrecircles' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;5O&#47;5Omostinfluentialartistsintheworld&#47;genrecircles&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-GB' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1715515004281');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='1521px';vizElement.style.height='794px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='1521px';vizElement.style.height='794px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+</div>
+
+
+<div class='text'>
+	<h1>Where are these artists from</h1>
+Their homelands have not only provided them with unique perspectives and cultural narratives but have also influenced their distinctive styles and themes. This geographical diversity highlights the universal language of art, transcending borders and connecting different cultures through the power of visual expression. France, particularly Paris, has historically been a hub for artistic innovation and cultural exchange, making it a breeding ground for many of the world's most influential artists.
+</div>
+
+<!-- tableau public -->
+<div class='center_aligner'>
+<div class='tableauPlaceholder' id='viz1715524697051' style='position: relative'><noscript><a href='#'><img alt='nationality ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;5O&#47;5Omostinfluentialartistsintheworld&#47;nationality&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='5Omostinfluentialartistsintheworld&#47;nationality' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;5O&#47;5Omostinfluentialartistsintheworld&#47;nationality&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-GB' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1715524697051');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='820px';vizElement.style.height='787px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='820px';vizElement.style.height='787px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+</div>
+
+
+<div class='text'>
+	<h1>Explore individual artist</h1>
+	Hover to see artists'bio
+</div>
+
+
+
+<!-- tableau public -->
+<div class='center_aligner'>
+	<!-- insert tableau public embed link below this line -->
+	<div class='tableauPlaceholder' id='viz1715526009133' style='position: relative'><noscript><a href='#'><img alt='Dashboard 5 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;5O&#47;5Omostinfluentialartistsintheworld&#47;Dashboard5&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='5Omostinfluentialartistsintheworld&#47;Dashboard5' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;5O&#47;5Omostinfluentialartistsintheworld&#47;Dashboard5&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-GB' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1715526009133');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='1220px';vizElement.style.height='887px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='1220px';vizElement.style.height='887px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+</div>
+
+</div>
+
+
+
+<!-- interactive embed, adjust the width and height as necessary, copy lines 155 to 157 to create a new interactive embed --> 
+
+
+<div class='text'>
+	<h1>Highlight</h1>
+</div>
+
+
+<!-- counter -->
+<div class='header sticky step' id='dynamic_sticky1'>
+</div>
+
+
+<div class='leftside'>
+
+	<div class='text progressive'>
+	<h1>Frida Kahlo</h1>
+	A Mexican painter known for her vividly colored self-portraits and works steeped in symbolism and personal experience, remains a powerful icon of creativity and resilience. <br><br>
+
+		<img class='small' src="images/2.jpg"> 	
+	</div>
+
+	<div class='text progressive'>
+	<h1>Impressionism is influential</h1>
+	Impressionism, a revolutionary art movement that emerged in the late 19th century in France, marked a radical departure from traditional art. <br><br>
+	<img class='small' src="images/3.jpg"> 	
+	</div>
+
+	<div class='text progressive end'>
+	<h1>Vincent Van Gogh</h1>
+	He has the most known paintings among these 50 artists. He produced more than 900 paintings and many more drawings and sketches, which works out at nearly a new artworks every 36 hours. <br><br>
+	<img class='small' src="images/4.jpg"> 	
+	</div>
+
+</div>
+
+
+
+<div class='text'>
+	<h1>Takeaways</h1>
+	This data story illuminates the profound impact of the 50 most influential artists across genres and epochs, revealing not only the richness of their contributions but also the diverse cultural contexts from which they emerged. As we journey through the vivid timelines and interactive maps of their life's works, we gain a deeper appreciation for how these artists have shaped the visual language of our world, pushing boundaries and challenging perceptions. 
+</div>
+
+
+</body>
+<script type="text/javascript">
+
+// instantiate the scrollama
+const scroller = scrollama();
+const scroller2 = scrollama();
+
+scroller
+  .setup({
+    step: ".text",
+    offset: 0.9,
+  })
+  .onStepEnter(response => {
+    // { element, index, direction }
+    el=response.element;
+    el.style.opacity=1;
+    el.style.marginTop='5%';    
+  })
+  .onStepExit(response => {
+    // { element, index, direction }  
+    el=response.element;
+  })
+  ;
+ // setup resize event
+window.addEventListener("resize", scroller.resize);
+
+scroller2
+  .setup({
+    step: ".progressive",
+    offset: 0.6,
+  })
+  .onStepEnter(response => {
+    // { element, index, direction }
+    el=response.element;
+    el.style.opacity=1;
+    if(response.index==0 || 1 || 2){
+    	stick('dynamic_sticky1')
+    	response.direction=='down'
+    	if(response.index==0){
+    		count(0,1,1,'Only','Female artist','dynamic_sticky1','','')
+    	} else if (response.index==1){
+    		count(20,34,1,'Impressionism artists','of the 50 artists','dynamic_sticky1','')
+    	} else if (response.index==2){
+    		count(800,877,7,'Vincent Van Gogh','known paintings','dynamic_sticky1','','')
+    	}
+    }
+  })
+  .onStepExit(response => {
+    // { element, index, direction }  
+    el=response.element;
+    console.log(response.index)
+    if(response.index==2){
+    	unstick('dynamic_sticky1')
+    }
+    el.style.opacity=0;
+  })
+  ;
+ // setup resize event
+window.addEventListener("resize", scroller2.resize);
+
+function count(number1, number2, step, title, label, location_id, prefix='+', suffix='%'){
+	target = document.querySelector('#'+location_id)
+	console.log(target)
+	let text=number1;
+
+	setInterval(function(){
+		if(text!=number2){
+			num = text+step
+			if(num % 1 == 0){
+				text = num
+			} else {
+				text = parseFloat(num.toFixed(2))
+			}
+			target.innerHTML="<div class='aligner'><h1>"+title+"</h1><div id='counter'>"+prefix+text+suffix+"</div><h2>"+label+"</h2></div>"
+		}
+	}, 30);
+}
+
+function stick(location_id){
+	target = document.querySelector('#'+location_id)
+	target.style.position="sticky"
+}
+
+function unstick(location_id){
+	target = document.querySelector('#'+location_id)
+	target.style.position="relative"
+}
+
+</script>
+
+</html>
